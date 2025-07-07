@@ -1,0 +1,52 @@
+baseURL = 'https://jbeattie5768.github.io/'
+languageCode = 'en-gb'
+title = 'Jonathan B'
+theme = 'PaperMod'
+
+[params]
+ShowCodeCopyButtons = true
+# ShowShareButtons = true
+ShowBreadCrumbs = true
+ShowPostNavLinks = true
+
+[params.assets]
+disableFingerprinting = true
+  
+[params.homeInfoParams]
+# title = "Some fancy text ..."
+Content = "This is my personal blog. I sometimes update it...."
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/jbeattie5768"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://linkedin.com/in/username"
+
+[[menu.main]]
+identifier = "posts"
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+identifier = "tags"
+name = "Tags"
+url = "/tags/"
+weight = 20
+
+[[menu.main]]
+identifier = "search"
+name = "Search"
+url = "/search/"
+weight = 30
+
+[[menu.main]]
+name = "About"
+pageRef = "/about"
+weight = 40
+
+[outputs]
+home = [ "HTML", "RSS", "JSON" ]
+
