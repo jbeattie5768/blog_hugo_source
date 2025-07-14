@@ -1,0 +1,13 @@
+# Compressed #
+##############
+# git has its own built in compression methods
+*.zip
+
+# IDE's #
+#########
+.vscode
+
+# Hugo #
+########
+/jbeattie5768.github.io/pwdpublic/
+/jbeattie5768.github.io/.hugo_build.lock

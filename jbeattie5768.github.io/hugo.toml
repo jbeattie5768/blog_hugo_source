@@ -3,26 +3,46 @@ languageCode = 'en-gb'
 title = 'Jonathan B'
 theme = 'PaperMod'
 
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
 [params]
+# env = production
+author = 'Jonathan B'
+keywords = ['Blog', 'jbeattie', 'Jonathan B']
+
+# defaultTheme = auto
+disableThemeToggle = false
+
 ShowCodeCopyButtons = true
 # ShowShareButtons = true
 ShowBreadCrumbs = true
 ShowPostNavLinks = true
+comments = false
+hidemeta = false
+hideSummary = false
+showtoc = false
+tocopen = false
 
-[params.assets]
-disableFingerprinting = true
+# [params.assets]
+# disableFingerprinting = true
   
 [params.homeInfoParams]
-# title = "Some fancy text ..."
+# title = "Jonathan's Blog"
 Content = "This is my personal blog. I sometimes update it...."
 
 [[params.socialIcons]]
 name = "github"
 url = "https://github.com/jbeattie5768"
 
-[[params.socialIcons]]
-name = "linkedin"
-url = "https://linkedin.com/in/username"
+# [[params.socialIcons]]
+# name = "linkedin"
+# url = "https://linkedin.com/in/username"
+
+[[params.meta]]
+favicon = true
 
 [[menu.main]]
 identifier = "posts"
