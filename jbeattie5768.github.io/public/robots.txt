@@ -1,3 +1,0 @@
-User-agent: *
-Disallow:
-Sitemap: https://jbeattie5768.github.io/sitemap.xml
