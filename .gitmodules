@@ -1,3 +1,7 @@
 [submodule "jbeattie5768.github.io/themes/PaperMod"]
 	path = jbeattie5768.github.io/themes/PaperMod
 	url = https://github.com/adityatelange/hugo-PaperMod.git
+[submodule "jbeattie5768.github.io/public"]
+	path = jbeattie5768.github.io/public
+	url = https://github.com/jbeattie5768/jbeattie5768.github.io.git
+	branch = main
