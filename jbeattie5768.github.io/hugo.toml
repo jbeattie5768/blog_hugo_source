@@ -28,7 +28,7 @@ tocopen = false
 
 # [params.assets]
 # disableFingerprinting = true
-  
+
 [params.homeInfoParams]
 # title = "Jonathan's Blog"
 Content = "This is my personal blog. I sometimes update it...."
@@ -70,3 +70,5 @@ weight = 40
 [outputs]
 home = [ "HTML", "RSS", "JSON" ]
 
+[markup.goldmark.parser.attribute]
+block = true # default is false

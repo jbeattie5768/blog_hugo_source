@@ -1,0 +1,76 @@
+# https://EditorConfig.org
+
+#########################
+# Common Settings
+#########################
+
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_size = 4
+end_of_line = lf
+indent_style = space
+max_line_length = 100
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+#########################
+# File Extension Settings
+#########################
+
+# C/C++ Files
+[*.{c,cpp,h,hpp}]
+indent_size = 4
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+# JSON Files
+[*.json]
+indent_size = 2
+
+# JavaScript Files
+[*.js]
+indent_size = 2
+
+# Makefiles
+[Makefile]
+indent_style = tab
+
+# Markdown Files
+[*.{md,mdx}]
+max_line_length = off
+trim_trailing_whitespace = false
+
+# Python Files
+[*.py]
+charset = utf-8
+indent_size = 4
+end_of_line = lf
+indent_style = space
+max_line_length = 120
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Shell Scripts
+[*.sh]
+indent_size = 2
+end_of_line = lf
+
+# Text Files
+[*.txt]
+end_of_line = lf
+
+# YAML Files
+[*.{yml,yaml}]
+indent_size = 2
+
+# Web Files
+[*.{htm,html,js,css}]
+indent_size = 2
+
+# Windows Scripts
+[*.{cmd,bat}]
+end_of_line = crlf
