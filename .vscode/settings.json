@@ -16,6 +16,8 @@
     "HKCU",
     "HKEYS",
     "keynames",
+    "numberstring",
+    "pydocstyle",
     "regdump",
     "startswith",
     "zune"
