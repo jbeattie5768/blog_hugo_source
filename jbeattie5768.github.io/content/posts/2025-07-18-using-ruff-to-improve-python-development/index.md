@@ -1,6 +1,6 @@
 +++
 date = '2025-07-18'
-draft = true
+draft = false
 title = 'Modernizing Python Development: Linting and Formatting with Ruff'
 tags = ["Python", "Tools", "Ruff"]
 +++
