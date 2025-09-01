@@ -9,14 +9,31 @@ ______________________________________________________________________
 
 ## Table of Contents
 
-- [Introduction](#1-introduction)
-- [Background: What is the Windows Registry?](#2-background-what-is-the-windows-registry)
-- [The Problem with Sample Code: Lessons from PEP 514](#3-the-problem-with-sample-code-lessons-from-pep-514)
-- [Exploring the Registry: Exporting and Analysing Data](#4-exploring-the-registry-exporting-and-analysing-data)
-- [Building a Better Registry Reader in Python](#5-building-a-better-registry-reader-in-python)
-- [Practical Example: Using the Script](#6-practical-example-using-the-script)
-- [Key Takeaways](#7-key-takeaways)
-- [Try It Yourself](#8-try-it-yourself)
+- [Table of Contents](#table-of-contents)
+- [1. Introduction](#1-introduction)
+- [2. Background: What is the Windows Registry?](#2-background-what-is-the-windows-registry)
+  - [Structure of the Windows Registry](#structure-of-the-windows-registry)
+- [3. The Problem with Sample Code: Lessons from PEP 514](#3-the-problem-with-sample-code-lessons-from-pep-514)
+- [4. Exploring the Registry: Exporting and Analysing Data](#4-exploring-the-registry-exporting-and-analysing-data)
+  - [Example: Analysing Exported Registry Files](#example-analysing-exported-registry-files)
+  - [Example summary of my registry key statistics](#example-summary-of-my-registry-key-statistics)
+- [5. Building a Better Registry Reader in Python](#5-building-a-better-registry-reader-in-python)
+  - [Getting Keys and Values](#getting-keys-and-values)
+  - [Traversing Subkeys via Recursion](#traversing-subkeys-via-recursion)
+  - [Printing Results](#printing-results)
+  - [Arguments with ArgParse](#arguments-with-argparse)
+  - [Issues Found](#issues-found)
+  - [Final Tidy](#final-tidy)
+- [6. Practical Example: Using the Script](#6-practical-example-using-the-script)
+  - [Command-line Examples](#command-line-examples)
+  - [Script Examples](#script-examples)
+    - [Example 1](#example-1)
+    - [Example 2](#example-2)
+- [7. Key Takeaways](#7-key-takeaways)
+  - [Reading a Registry Value](#reading-a-registry-value)
+  - [Writing to the Registry](#writing-to-the-registry)
+  - [Deleting a Registry Key or Value](#deleting-a-registry-key-or-value)
+- [8. Try It Yourself](#8-try-it-yourself)
 
 ______________________________________________________________________
 
@@ -406,7 +423,7 @@ uv run winreg_read.py "HKEY_CURRENT_CONFIG" "System" -e "System\CurrentControlSe
 
 Traverse a given HKEY and subkey-path:
 
-```python {hl_lines=[6]}
+```python {hl_lines=[7]}
 # import winreg  # Instead, use the import via 'winreg_read'import 
 import winreg_read
 
