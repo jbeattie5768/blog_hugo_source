@@ -1,6 +1,6 @@
 +++
 date = '2025-10-12'
-draft = true
+draft = false
 title = 'Using YT-DLP With UVX'
 tags = ["UV", "UVX", "yt-dlp"]
 +++
