@@ -46,6 +46,13 @@ uv run where <exe_name>       # Show path(s) of all <exe_name>.exe
 uv python pin 3.14  # Use a specific version in the _current directory_
                     # Creates a .python-version file
 
+# UV Uninstall
+uv cache clean                      # Optional, but recommended
+rm -r "$(uv python dir)"            # Optional, but recommended 
+rm -r "$(uv tool dir)"              # Optional, but recommended
+rm $HOME\.local\bin\uv*.exe         # Windows
+rm ~/.local/bin/uv ~/.local/bin/uvx # Linux/macOS
+
 # Run Python
 ######################################################
 uv run python                   # REPL with default version
