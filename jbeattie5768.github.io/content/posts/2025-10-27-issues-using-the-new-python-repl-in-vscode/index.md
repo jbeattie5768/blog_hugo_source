@@ -5,6 +5,8 @@ title = "Using the New PyREPL in VSCode"
 tags = ["Python", "REPL", "VSCode", "Issue"]
 +++
 
+{{< figure src="VSCode_PyREPL_Example.webp" alt="PyREPL example in VSCode showing various coloured examples" caption="PyREPL in VSCode is Possible" >}}
+
 ## The PyREPL
 
 I use the REPL all the time and I'm enjoying the new PyREPL.  
@@ -54,6 +56,8 @@ A thing of beauty!
 
 There have been reports of cursor indentation issues (see [CPython Issue #126131](https://github.com/python/cpython/issues/126131)) when using PyREPL in VSCode, but I've not noticed any major issues **yet**.
 
+---
+
 ## References
 
 - <https://github.com/pypy/pypy/tree/d102094b863ce49b7af030dcb0cecaac515d97c6/lib_pypy/pyrepl>
@@ -65,3 +69,9 @@ There have been reports of cursor indentation issues (see [CPython Issue #126131
 - <https://github.com/python/cpython/issues/126172>  
 - <https://github.com/python/cpython/issues/126131>
 - <https://code.visualstudio.com/docs/terminal/shell-integration>
+
+---
+
+### Edits to this Post
+
+- 30 Oct 2025: Added banner image to post.

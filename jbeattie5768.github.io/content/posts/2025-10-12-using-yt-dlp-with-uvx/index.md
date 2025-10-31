@@ -5,15 +5,17 @@ title = 'Using YT-DLP With UVX'
 tags = ["UV", "UVX", "yt-dlp"]
 +++
 
+![alt text](yt_dlp_to_mp3_02.webp)
+
 ## Introduction
 
 YT‑DLP is a fast, actively maintained command-line tool for downloading audio and video from many sites. I use it to extract audio from videos for offline listening on walks. This post shows a simple, reproducible workflow using UV/UVX so you can run YT‑DLP without installing it system‑wide, plus a small PowerShell helper script to make converting downloads easier.
 
 What you’ll find here:
 
+- Prerequisites and quick troubleshooting tips
 - How I run YT‑DLP via UVX
 - A ready-to-use PowerShell script
-- Prerequisites and quick troubleshooting tips
 
 **Legal/Terms reminder**: only download content you have the right to store or that is permitted by the content provider's terms of service.
 
@@ -149,3 +151,9 @@ if ($AutoPlay) {
 }
 # End of Script
 ```
+
+---
+
+### Edits to this Post
+
+- 30 Oct 2025: Added banner image to post and reordered "_What you’ll find here_" items.
