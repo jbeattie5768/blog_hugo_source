@@ -100,6 +100,13 @@ uv add <azurepkg> --optional azure # Add Optional to 'azure' group
                       # Remove is the same ordering,
                       # e.g. "uv remove --dev tox coverage"
 
+# Add/Update InLine Script Metadata (PEP 723)
+uv add --script <script> <pkg1 ...> # Can pass a requirements file with '-r'
+                                    # Can set Python version with '--python'
+
+# Export the project's lockfile to an alternate format
+uv export --no-annotate --no-dev --no-emit-workspace --no-header --no-hashes --output-file requirements.txt  # pylock.toml (PEP 751) also supported 
+
 # Manage Python packages with a pip-compatible interface
 ######################################################
 uv pip list                   # List packages installed
