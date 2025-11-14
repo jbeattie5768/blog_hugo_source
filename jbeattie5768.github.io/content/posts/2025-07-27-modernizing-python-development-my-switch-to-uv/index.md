@@ -79,26 +79,27 @@ deactivate
 
 # Add Dependencies - normally into current venv
 ######################################################
+# Will add to 'pyproject.toml', 'uv.lock' and sync the venv
 uv add <pkg1,...>     # Add one or more dependencies to the project
                       # Version Specifiers allowed, e.g. rich>13.9.1
 uv add -r requirements.txt  # Add all in the given `requirements.txt`
 uv remove <pkg1,...>        # Remove dependencies from the project
 
-# Requires 'pyproject.toml'
-uv tree                       # View the dependency tree
-uv tree --outdated --depth 1  # View latest available versions
-
-uv sync               # Sync environment from uv.lock
-uv lock               # Create uv.lock (happens automatically anyway)
-
-uv sync ---upgrade    # Edit pyproject.toml to change package version, then...
-
 # 'pyproject.toml' [dependency-groups]
 uv add --dev <pkg1,...>            # Add to the development group
 uv add --group test <testpkg>      # Add to user named `test` group
 uv add <azurepkg> --optional azure # Add Optional to 'azure' group
-                      # Remove is the same ordering,
-                      # e.g. "uv remove --dev tox coverage"
+                                   # Remove is the same
+# Requires a 'pyproject.toml'
+uv tree                       # View the dependency tree
+uv tree --outdated --depth 1  # View latest available versions
+
+# Update packages
+# 1: Update uv.lock file to version in 'pyproject.toml'
+uv lock --upgrade
+uv lock --upgrade-package <pkg>
+# 2: call 'uv sync' to update your venv from lock file
+uv sync                       # Sync environment from uv.lock
 
 # Add/Update InLine Script Metadata (PEP 723)
 uv add --script <script> <pkg1 ...> # Can pass a requirements file with '-r'
@@ -107,8 +108,14 @@ uv add --script <script> <pkg1 ...> # Can pass a requirements file with '-r'
 # Export the project's lockfile to an alternate format
 uv export --no-annotate --no-dev --no-emit-workspace --no-header --no-hashes --output-file requirements.txt  # pylock.toml (PEP 751) also supported 
 
+# 'uv.lock' file created first time a UV proj cmd is run
+# i.e., uv run, uv add, uv sync, uv lock
+uv lock            # Manually create lock file
+uv lock --check    # Check if the lockfile is up-to-date
+
 # Manage Python packages with a pip-compatible interface
 ######################################################
+# You should have done 'uv venv --seed' to use these
 uv pip list                   # List packages installed
 uv pip install <pkg1 pkg2..>  # Install package into an environment
 uv pip install -p 3.14 <pkg>  # Install into specific version
