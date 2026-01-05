@@ -70,6 +70,7 @@ uvx python@3.14 <script>.py   # Specific version
 uv venv                 # Use the default Python version
 uv venv <venv_name>     # Specify the Venv name
 uv venv --python 3.14   # Specify the Python version for the Venv
+uv venv --prompt <prmt> # Alternative prompt prefix for the Venv
 uv venv --seed          # Add the PiP module to the Venv
 
 # Activate Venus
@@ -91,8 +92,9 @@ uv add --group test <testpkg>      # Add to user named `test` group
 uv add <azurepkg> --optional azure # Add Optional to 'azure' group
                                    # Remove is the same
 # Requires a 'pyproject.toml'
-uv tree                       # View the dependency tree
+uv tree                       # View the project dependency tree
 uv tree --outdated --depth 1  # View latest available versions
+uv pip tree                   # View the environment dependency tree
 
 # Update packages
 # 1: Update uv.lock file to version in 'pyproject.toml'
@@ -661,3 +663,4 @@ Switching to UV will hopefully make my Python development faster, more organized
 
 - 30 Oct 2025: Updated Markdown and removed emoji's.
 - 30 Oct 2025: Update and moved UV commands to top of page (easier referencing by me).
+- 15 Nov 2025: Updated UV commands for uninstall and exporting and updating packages
