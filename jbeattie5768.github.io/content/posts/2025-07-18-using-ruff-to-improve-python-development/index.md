@@ -608,7 +608,7 @@ Don't get bogged down with it, instead embrace it as you move forward.
 
 ---
 
-Edits to this Post
+## Edits to this Post <!-- omit in toc -->
 
-05 Jan 2025: Added _"I don't want it to format a section of code"_ entry to [Tips](#tips) section.
-05 Jan 2025: Added banner image and updated some formatting.
+- 05 Jan 2026: Added _"I don't want it to format a section of code"_ entry to [Tips](#tips) section.  
+- 05 Jan 2026: Added banner image and updated some formatting.
