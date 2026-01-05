@@ -72,3 +72,6 @@ home = [ "HTML", "RSS", "JSON" ]
 
 [markup.goldmark.parser.attribute]
 block = true # default is false
+
+[markup.markup.highlight]
+style = 'monokai'
