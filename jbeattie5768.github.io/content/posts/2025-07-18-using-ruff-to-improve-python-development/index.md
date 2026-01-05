@@ -5,6 +5,8 @@ title = 'Modernizing Python Development: Linting and Formatting with Ruff'
 tags = ["Python", "Tools", "Ruff"]
 +++
 
+![Diff Changes for `example.py`](images/image-5.png)
+
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 - [Introduction](#introduction)
@@ -252,7 +254,7 @@ Now we are down to 4 errors for our example, but there are no auto fixes for tho
 - F403 `from sys import *` used; unable to detect undefined names
   - Yes, star imports are bad, change to `import sys`
 - F634 If test is a tuple, which is always `True`
-  -  Change to `if True:`
+  - Change to `if True:`
 - E402 Module level import not at top of file
   - Move import to the top
 - E722 Do not use bare `except`
@@ -356,7 +358,7 @@ For me, #4 is the preferred option for the way I work (although I am trying to u
 New-Item -ItemType SymbolicLink -Force -Path "$env:USERPROFILE\AppData\Roaming\Ruff\ruff.toml" -Target "$env:USERPROFILE\ruff.toml"
 ```
 
-IMHO, Ruff is a little lacking in not allowing a home directory default/fallback configuration file. Instead it has its [file discovery](https://docs.astral.sh/ruff/configuration/#config-file-discovery), one of which is the `${config_dir}/ruff/` directory. For Windows, the `$(config_dir)` is equivalent to `%userprofile%\AppData\Roaming` and if there is a `pyproject.toml` or `ruff.toml` located in the assocuated Ruff directory, that TOML will be used if no local config file is found.
+IMHO, Ruff is a little lacking in not allowing a home directory default/fallback configuration file. Instead it has its [file discovery](https://docs.astral.sh/ruff/configuration/#config-file-discovery), one of which is the `${config_dir}/ruff/` directory. For Windows, the `$(config_dir)` is equivalent to `%userprofile%\AppData\Roaming` and if there is a `pyproject.toml` or `ruff.toml` located in the associated Ruff directory, that TOML will be used if no local config file is found.
 
 ---
 
@@ -557,6 +559,31 @@ jobs:
     ...
     ```
 
+- **I don't want it to format a section of code**
+  - Add the `# fmt: off`/`# fmt: on` pairing around the code you do not want formatted. These need to be on their own lines.
+  - For single lines, use `# fmt: skip` after the command to be left unchanged.
+  - Examples for both options:
+  
+  ```python  linenos=inline hl_lines=[1,5, 12] style=monokai}
+    # fmt: off
+    for status in [(-1, -1), (-1, 0), (-1, 1),
+                   ( 0, -1),          ( 0, 1),  # show (row,col) offset
+                   ( 1, -1), ( 1, 0), ( 1, 1)]:
+    # fmt: on
+        print(f"Status: {status}")
+
+    # Ruff Formatting would change this to be:
+    for status in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+        print(f"Status: {status}")
+
+    import pdb; pdb.set_trace()  # fmt: skip
+
+    # Ruff Formatting would change this to be:
+    import pdb
+    
+    pdb.set_trace()
+  ```
+
 ---
 
 ## Conclusion
@@ -578,3 +605,10 @@ Don't get bogged down with it, instead embrace it as you move forward.
   - [Radon](https://github.com/rubik/radon)
   - [complexipy](https://github.com/rohaquinlop/complexipy)
   - [A study testing how effective Cognitive Complexity is](https://www.sciencedirect.com/science/article/abs/pii/S0164121222002370)
+
+---
+
+Edits to this Post
+
+05 Jan 2025: Added _"I don't want it to format a section of code"_ entry to [Tips](#tips) section.
+05 Jan 2025: Added banner image and updated some formatting.
