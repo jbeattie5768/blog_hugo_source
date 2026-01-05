@@ -31,8 +31,8 @@ I've had trouble with the terminal in VSCode in the past (see [this blog post](h
 
 Not ideal.
 
-This also seems to be the case for the VSCode Insiders version (I observed it in the _1.106.0-insider_ version).  
-I'd expect this to be a temporary thing for VSCode, and they are working on changing it.
+This also appears to be the case for the VSCode Insiders version (I observed it in the _1.106.0-insider_ version).  
+I expect this to be a temporary thing for VSCode, and that the VSCode team is working on changing it.
 
 VSCode sets the [`PYTHON_BASIC_REPL`](https://docs.python.org/3/using/cmdline.html#envvar-PYTHON_BASIC_REPL) environment variable within its environment, which forces the basic REPL and prevents PyREPL from loading.
 
@@ -58,6 +58,68 @@ There have been reports of cursor indentation issues (see [CPython Issue #126131
 
 ---
 
+## Essential Keyboard Shortcuts
+
+There are a number of keyboard bindings (keyboard shortcuts) available for the new PyRepl. These bindings are defined in the default CPython keymap in [Lib/_pyrepl/reader.py](https://github.com/python/cpython/blob/3.14/Lib/_pyrepl/reader.py) and extended for history in [Lib/_pyrepl/historical_reader.py](https://github.com/python/cpython/blob/3.14/Lib/_pyrepl/historical_reader.py).
+
+The key ones _[pun absolutely intended]_ I use are:
+
+| Key Combination | Action |
+| --- | --- |
+| Ctrl+c | interrupt |
+| Ctrl+g | cancel |
+| Ctrl+k | kill-line |
+| Ctrl+l | clear-screen |
+| Ctrl+n | next-history |
+| Ctrl+p | previous-history |
+| Ctrl+r | reverse-history-isearch |
+| F1 | help |
+| F2 | show-history |
+
+>Use Ctrl+n/Ctrl+p to skip scrolling through history code blocks.
+{.note}
+
+I also use standard key combinations, such as the _Home/End keys_, _Ctrl + <-/->_, _Ctrl + Shift <-/->_, and so on.
+
+Extended bindings I tend not to use frequently enough to memorise:
+
+| Key Combination | Action |
+| --- | --- |
+| Ctrl+a | beginning-of-line |
+| Ctrl+b | left |
+| Ctrl+d | delete |
+| Ctrl+e | end-of-line |
+| Ctrl+f | right |
+| Ctrl+h | backspace |
+| Ctrl+j | accept (enter) |
+| Ctrl+m | accept |
+| Ctrl+t | transpose-characters |
+| Ctrl+u | unix-line-discard |
+| Ctrl+w | unix-word-rubout |
+| Ctrl+y | yank |
+| Meta+b | backward-word |
+| Meta+c | capitalize-word |
+| Meta+d | kill-word |
+| Meta+f | forward-word |
+| Meta+l | downcase-word |
+| Meta+t | transpose-words |
+| Meta+u | upcase-word |
+| Meta+y | yank-pop |
+| Meta+- | digit-arg |
+| Meta+0..9 | digit-arg |
+| Ctrl+o | operate-and-get-next |
+| Ctrl+s | forward-history-isearch |
+| Meta+r | restore-history |
+| Page Down | history-search-forward |
+| Page Up | history-search-backward |
+| F3 | paste-mode |
+
+>On Windows and Linux, use Alt for Meta.  
+>On Mac, use Option (⌥) for Meta (unless your terminal remaps it).
+{.note}
+
+---
+
 ## References
 
 - <https://github.com/pypy/pypy/tree/d102094b863ce49b7af030dcb0cecaac515d97c6/lib_pypy/pyrepl>
@@ -75,3 +137,4 @@ There have been reports of cursor indentation issues (see [CPython Issue #126131
 ### Edits to this Post
 
 - 30 Oct 2025: Added banner image to post.
+- 05 Jan 2026: Added keyboard shortcuts section
