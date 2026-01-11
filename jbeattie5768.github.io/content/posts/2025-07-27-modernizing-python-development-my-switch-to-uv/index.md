@@ -7,7 +7,7 @@ tags = ["Python", "Tools", "UV"]
 
 ---
 
-### Summary of Common UV Commands
+## Summary of Common UV Commands
 
 ```pwsh
 # Install UV - multiple options available
@@ -162,6 +162,33 @@ uv tool dir --bin  # Installed executable
 uv tool list       # List Installed Tools
 ```
 
+## Simple Library Project Creation - PowerShell Commands
+
+```powershell
+# Powershell
+$proj_name = Read-Host 'What is your-project-name?'
+$proj_underscores = $proj -replace '-', '_'
+
+mkdir $proj_name
+cd $proj_name
+# Create a library
+uv init --lib        # auto creates hello() in ./src/$proj_name/__init__.py
+# Use Dependency Groups (PEP 735)
+uv add --dev pytest  # creates a .venv and uv.lock file
+mkdir tests
+
+# Use double-quotes to ref variables directly in string
+echo "from $proj_underscores import hello
+
+def test_hello():
+    assert hello() == ""Hello from $proj_name!""
+" > tests/test_$proj_underscores.py
+
+uv run pytest
+```
+
+* see [Simple Src Layout Example](simple-src-layout-Example)
+  
 ---
 
 ## Introduction
@@ -197,21 +224,21 @@ After installing, you can check your installation with `uv --version` and update
 
 In `$HOME/.local/bin` you should have:
 
-| Executable | Description
-|------------|-------------
-| uv.exe | UV executable
-| uvw.exe | Alias for `uv` [without a console window on Windows](https://github.com/astral-sh/uv/pull/11786).\
-| | i.e. doesn't create a visible console window
-| uvx.exe | Alias for `uv tool run`
+| Executable | Description |
+| --- | --- |
+| uv.exe | UV executable |
+| uvw.exe | Alias for `uv` [without a console window on Windows](https://github.com/astral-sh/uv/pull/11786) |
+| | i.e. doesn't create a visible console window |
+| uvx.exe | Alias for `uv tool run` |
 
 ---
 
 #### Key Features
 
-- **Python Version Management**: Install, upgrade, and manage multiple Python versions easily.
-- **Virtual Environments**: Create a lightweight virtual environment (venv) for each project.
-- **Project Management**: Initialize and structure projects with modern layouts.
-- **Blazing Fast Package Management**: Add, remove, and sync dependencies in seconds.
+* **Python Version Management**: Install, upgrade, and manage multiple Python versions easily.
+* **Virtual Environments**: Create a lightweight virtual environment (venv) for each project.
+* **Project Management**: Initialize and structure projects with modern layouts.
+* **Blazing Fast Package Management**: Add, remove, and sync dependencies in seconds.
 
 ---
 
@@ -335,14 +362,14 @@ uv sync ---upgrade
 
 You can use the standard Dependency [Version Specifiers](https://peps.python.org/pep-0440/#version-specifiers) for packages as follows:
 
-| Specifier | Description | Example
-|--------|----------------|----------
-| ~= | Compatible release | ~= 1.1
-| == | Version matching | == 1.1.1
-| != | Version exclusion | != 1.0
-| \<=, >= | Inclusive ordered comparison | >= 1.1
-| === | Arbitrary equality (future Use) | ===1.1.1
-| \<, > | Exclusive ordered comparison | >1.1
+| Specifier | Description | Example |
+| --- | --- | --- |
+| ~= | Compatible release | ~= 1.1 |
+| == | Version matching | == 1.1.1 |
+| != | Version exclusion | != 1.0 |
+| \<=, >= | Inclusive ordered comparison | >= 1.1 |
+| === | Arbitrary equality (future Use) | ===1.1.1 |
+| \<, > | Exclusive ordered comparison | >1.1 |
 
 You can use these in the `pyproject.toml` file, or manually on the CLI:
 
@@ -389,33 +416,33 @@ uv add "git+https://github.com/sherlock-project/sherlock"    # GitHub repo
 UV does provide a PiP equivalent interface if you feel more comfortable using PiP: note that this is not installing pip, you are still using UV that has a "_Pip-like_" CLI interface. You can use it as `uv pip [OPTIONS] <COMMAND>`.\
 Just a reminder, using these PiP-like commands means the dependencies _are not_ under UV management.
 
-| UV PiP Cmd | Description
-|------------------|-------------
-| uv pip compile | Compile a `requirements.in` file to a `requirements.txt`
-| uv pip sync | Sync to a `requirements.txt` or `pylock.toml` file
-| uv pip install | Install packages
-| uv pip uninstall | Uninstall packages
-| uv pip freeze | List installed packages in requirements format
-| uv pip list | List installed packages
-| uv pip show | Show information for one or more installed packages
-| uv pip tree | Display the dependency tree
-| uv pip check | Verify dependency compatibilities
+| UV PiP Cmd | Description |
+| --- | --- |
+| uv pip compile | Compile a `requirements.in` file to a `requirements.txt` |
+| uv pip sync | Sync to a `requirements.txt` or `pylock.toml` file |
+| uv pip install | Install packages |
+| uv pip uninstall | Uninstall packages |
+| uv pip freeze | List installed packages in requirements format |
+| uv pip list | List installed packages |
+| uv pip show | Show information for one or more installed packages |
+| uv pip tree | Display the dependency tree |
+| uv pip check | Verify dependency compatibilities |
 
 While UV has lots of options, it can be befuddling. For example, for PiP you could have:
 
-| PiP Type | Meaning
-|----------------|----------
-| uv venv | Default UV venv with **no** PiP added to the venv
-| uv venv --seed | UV venv **with** PiP added to the venv
-| uv add pip | PiP added as a dependency and managed by UV
-| uv pip \<cmd> | PiP-like UV command
-| uvx pip \<cmd> | Run PiP as a UV tool
+| PiP Type | Meaning |
+| --- | --- |
+| uv venv | Default UV venv with **no** PiP added to the venv |
+| uv venv --seed | UV venv **with** PiP added to the venv |
+| uv add pip | PiP added as a dependency and managed by UV |
+| uv pip \<cmd> | PiP-like UV command |
+| uvx pip \<cmd> | Run PiP as a UV tool |
 
 I'd recommend using UV for package management. You always have `uv pip <cmd>` to fall back on or running PiP as a tool
 
 ---
 
-#### Project Creation
+### Project Creation
 
 There is no single "right" way to structure a Python project. The closest "_standard_" is the Python Packaging Authority (PYPA) who basically show [two types](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/): Flat Layout and Src Layout, both of which are popular.
 
@@ -424,12 +451,12 @@ UV does adhere to the PYPA Src layout as an option, with some variations defined
 
 UV can [generate project layouts](https://docs.astral.sh/uv/concepts/projects/init/#creating-projects) for you:
 
-| Project Type | Layout | Description
-|--------------|-----------|-------------------------------------------------------------
-| Default | Top-Level | Layout for simple tools, scripts, CLi, etc
-| Bare | Top-Level | Just the _pyproject.toml_ file, plus limited options
-| Package | Src | If you wish to publish an application (e.g. create a Wheel)
-| Library | Src | If you wish to specifically package a library
+| Project Type | Layout | Description |
+| --- | --- | --- |
+| Default | Top-Level | Layout for simple tools, scripts, CLi, etc |
+| Bare | Top-Level | Just the _pyproject.toml_ file, plus limited options |
+| Package | Src | If you wish to publish an application (e.g. create a Wheel) |
+| Library | Src | If you wish to specifically package a library |
 
 ```bash
 uv init example_uv                     # Default Project Type
@@ -453,14 +480,14 @@ If you are going to build your application, you need a build-backend. By default
 uv init --build-backend <Backend Option> <Project Name>
 ```
 
-| Backend Option | Description
-|----------------|------------------
-| [uv_build](https://docs.astral.sh/uv/guides/package/#building-your-package) | UV default backend, written in RUST for pure Python packages
-| [setuptools](https://github.com/pypa/setuptools) | The Original backend from the Python Packaging Authority
-| [hatchling](https://pypi.org/project/hatchling/) | Modern backend from the Hatch project
-| [flit_core](https://github.com/pypa/flit) | Simple backend for pure Python packages
-| [maturin](https://github.com/PyO3/maturin) | Backend designed for Rust extensions
-| [scikit-build-core](https://github.com/scikit-build/scikit-build-core) | Backend that uses CMake to build extension modules
+| Backend Option | Description |
+| --- | --- |
+| [uv_build](https://docs.astral.sh/uv/guides/package/#building-your-package) | UV default backend, written in RUST for pure Python packages |
+| [setuptools](https://github.com/pypa/setuptools) | The Original backend from the Python Packaging Authority |
+| [hatchling](https://pypi.org/project/hatchling/) | Modern backend from the Hatch project |
+| [flit_core](https://github.com/pypa/flit) | Simple backend for pure Python packages |
+| [maturin](https://github.com/PyO3/maturin) | Backend designed for Rust extensions |
+| [scikit-build-core](https://github.com/scikit-build/scikit-build-core) | Backend that uses CMake to build extension modules |
 
 Using the `--build-backend` flag implicitly implies the `--package` flag.
 
@@ -482,6 +509,56 @@ uv build example_pkg  # Named proj
 ```
 
 ![UV Build Command Example](image.png)
+
+---
+
+### Simple Src Layout Example
+
+I tend to create projects as a library, the `--lib` option, and start off with this simple set of steps:
+
+1. Create a project directory  
+   `mkdir my-proj`
+2. Initialise that project with UV  
+   `uv init --lib`
+3. Add PyTest in a dependency group  
+   `uv add --dev pytest`
+4. Create a tests folder
+   `mkdir tests`
+5. Create a test for the default _hello()_ function  
+   `echo 'from my_proj import hello`
+
+    `def test_hello():`
+        `assert hello() == "Hello from my-proj!"`
+    `' > tests/test_my_proj.py`
+6. Run Pytest to validate setup  
+   `uv run pytest`
+
+The steps as a PowerShell set of commands (or script) would be:
+
+```powershell
+# Powershell
+$proj_name = Read-Host 'What is your-project-name?'
+$proj_underscores = $proj -replace '-', '_'
+
+mkdir $proj_name
+cd $proj_name
+# Create a library
+uv init --lib        # auto creates hello() in ./src/$proj_name/__init__.py
+# Use Dependency Groups (PEP 735)
+uv add --dev pytest  # creates a .venv and uv.lock file
+mkdir tests
+
+# Use double-quotes to ref variables directly in string
+echo "from $proj_underscores import hello
+
+def test_hello():
+    assert hello() == ""Hello from $proj_name!""
+" > tests/test_$proj_underscores.py
+
+uv run pytest
+```
+
+You would need to adjust the commands and test for `--app` projects.
 
 ---
 
@@ -648,19 +725,20 @@ Switching to UV will hopefully make my Python development faster, more organized
 
 ### Further Reading
 
-- [UV: Documentation](https://docs.astral.sh/uv/)
-- [UV: Benchmarks](https://github.com/astral-sh/uv/blob/main/BENCHMARKS.md)
-- [PyPA: Python Packaging User Guide](https://packaging.python.org/)
-- [PyPA: Writing your pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
-- [Cory Doctorow: Enshittification](https://web.archive.org/web/20240208152542/https://www.ft.com/content/6fb1602d-a08b-4a8c-bac0-047b7d64aba5)
-- [Stuart Ellis: Modern Good Practices for Python Development](https://www.stuartellis.name/articles/python-modern-practices/)
-- [Aditya Ghadge: Why the ‘src’ Layout Beats Flat Folders](https://medium.com/@adityaghadge99/python-project-structure-why-the-src-layout-beats-flat-folders-and-how-to-use-my-free-template-808844d16f35)
-- [Niels Cautaerts: Python Dependency Management](https://nielscautaerts.xyz/python-dependency-management-is-a-dumpster-fire.html)
+* [UV: Documentation](https://docs.astral.sh/uv/)
+* [UV: Benchmarks](https://github.com/astral-sh/uv/blob/main/BENCHMARKS.md)
+* [PyPA: Python Packaging User Guide](https://packaging.python.org/)
+* [PyPA: Writing your pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
+* [Cory Doctorow: Enshittification](https://web.archive.org/web/20240208152542/https://www.ft.com/content/6fb1602d-a08b-4a8c-bac0-047b7d64aba5)
+* [Stuart Ellis: Modern Good Practices for Python Development](https://www.stuartellis.name/articles/python-modern-practices/)
+* [Aditya Ghadge: Why the ‘src’ Layout Beats Flat Folders](https://medium.com/@adityaghadge99/python-project-structure-why-the-src-layout-beats-flat-folders-and-how-to-use-my-free-template-808844d16f35)
+* [Niels Cautaerts: Python Dependency Management](https://nielscautaerts.xyz/python-dependency-management-is-a-dumpster-fire.html)
 
 ---
 
 ### Edits to this Post
 
-- 30 Oct 2025: Updated Markdown and removed emoji's.
-- 30 Oct 2025: Update and moved UV commands to top of page (easier referencing by me).
-- 15 Nov 2025: Updated UV commands for uninstall and exporting and updating packages
+* 30 Oct 2025: Updated Markdown and removed emoji's.
+* 30 Oct 2025: Update and moved UV commands to top of page (easier referencing by me).
+* 15 Nov 2025: Updated UV commands for uninstall and exporting and updating packages
+* 11 Jan 2026: Added my favoured proj creation steps and formatted MD 
