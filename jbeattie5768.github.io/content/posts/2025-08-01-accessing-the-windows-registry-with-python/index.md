@@ -34,12 +34,13 @@ ______________________________________________________________________
   - [Writing to the Registry](#writing-to-the-registry)
   - [Deleting a Registry Key or Value](#deleting-a-registry-key-or-value)
 - [8. Try It Yourself](#8-try-it-yourself)
+  - [Edits to this Post](#edits-to-this-post)
 
 ______________________________________________________________________
 
 ## 1. Introduction
 
-Curiosity often leads to some of the most interesting projects. After reading about [PEP 514](https://peps.python.org/pep-0514/) in the Astral [UV](https://docs.astral.sh/uv/) documentation, I discovered that Python installations on Windows are registered in the Windows Registry. Intrigued, I tried the sample code from PEP 514, only to find it lacking. This post documents my journey to build a more robust, flexible Python script for reading Windows Registry values. Hopefully this may be useful for someone.
+Curiosity often leads to some of the most interesting projects. After reading about [PEP 514](https://peps.python.org/pep-0514/) in the Astral [UV](https://docs.astral.sh/uv/) documentation, I discovered that Python installations on Windows are registered in the Windows Registry. Intrigued, I tried the sample code from PEP 514, only to find it lacking. This post documents my journey to build a more robust, flexible Python script for reading Windows Registry values. I hope this will be useful to others.
 
 ![Windows RegEdit Application showing Python user entries](images/image-2.png)
 
@@ -51,7 +52,7 @@ The Windows Registry is a hierarchical database that stores configuration settin
 
 ### Structure of the Windows Registry
 
-The Windows Registry is similar to a file-system. The top-level nodes (hives) are known as root-keys, and each top-level root-key contains subkeys (like folders) and values (like files).
+The Windows Registry is similar to a file system. The top-level nodes (hives) are known as root-keys, and each top-level root-key contains subkeys (like folders) and values (like files). The Windows Registry is not case-sensitive.
 
 ```mermaid
 graph TD
@@ -69,15 +70,15 @@ graph TD
     E --> F
 ```
 
-| Root Key | Purpose
-|----------|---------
-| HKEY_CLASSES_ROOT | Stores information about registered applications, file associations, and COM objects.
-| HKEY_CURRENT_USER | Contains settings and preferences for the currently logged-in user.
-| HKEY_LOCAL_MACHINE | Holds configuration data for the local computer, including hardware and software.
-| HKEY_USERS | Contains user-specific configuration for all users on the system.
-| HKEY_CURRENT_CONFIG | Stores information about the current hardware profile used at system startup.
+| Root Key | Purpose |
+| --- | --- |
+| HKEY_CLASSES_ROOT | Stores information about registered applications, file associations, and COM objects. |
+| HKEY_CURRENT_USER | Contains settings and preferences for the currently logged-in user. |
+| HKEY_LOCAL_MACHINE | Holds configuration data for the local computer, including hardware and software. |
+| HKEY_USERS | Contains user-specific configuration for all users on the system. |
+| HKEY_CURRENT_CONFIG | Stores information about the current hardware profile used at system startup. |
 
-A path is made from a root-key, keys, subkeys, and values. For example:
+A path is made from a root key, keys, subkeys, and values. For example:
 
 ```text
 Hive (root key): HKEY_CURRENT_USER  
@@ -88,12 +89,12 @@ Hive (root key): HKEY_CURRENT_USER
                 └── Value: InstallPath
 ```
 
-- A key (or subkey) is like a folder—it can contain more subkeys and also values.
+- A key (or subkey) is like a folder—it can contain additional subkeys and values.
   - _CPython3.13.5_ is a subkey. It can contain more subkeys (like _InstallPath_) and/or values (like _Default_, _ExecutablePath_, etc.).
 - A value is a _Name:Value_ pair stored inside a key. It does not contain further subkeys or values.
   - _InstallPath_ can be either a subkey (if it contains more subkeys/values) or a value (if it is just a _Name:Value_ pair).
 
-> The term "_hive_" is often used in documentation for the Windows Registry and seems to be a term specific to Windows, used by Microsoft to describe the files and top-level sections of the registry.
+> The term "_hive_" is often used in documentation for the Windows Registry and appears to be specific to Windows, used by Microsoft to describe the files and top-level sections of the registry.
 {.note}
 
 ______________________________________________________________________
@@ -127,16 +128,16 @@ The `regedit.exe` application does not allow you to export (dump) the whole regi
 
 For my system, there can be a large number of keys to traverse depending on the root HKEY chosen:
 
-| Filename | File Size | Line Count | Key Count
-|---------------------------------|-------------|------------|-----------
-| regdump_HKEY_CURRENT_CONFIG.txt | 3.65 (KB) | 58 | 12
-| regdump_HKEY_CURRENT_USER.txt | 73.45 (MB) | 611842 | 18402
-| regdump_HKEY_USERS.txt | 100.40 (MB) | 898276 | 35469
-| regdump_HKEY_CLASSES_ROOT.txt | 122.69 (MB) | 1931975 | 201571
-| regdump_HKEY_LOCAL_MACHINE.txt | 553.31 (MB) | 7558804 | 529983
-| _Totals_ | _849.85 (MB)_ | _11,000,955_ | _785,437_
+| Filename | File Size | Line Count | Key Count |
+| --- | --- | --- | --- |
+| regdump_HKEY_CURRENT_CONFIG.txt | 3.65 (KB) | 58 | 12 |
+| regdump_HKEY_CURRENT_USER.txt | 73.45 (MB) | 611842 | 18402 |
+| regdump_HKEY_USERS.txt | 100.40 (MB) | 898276 | 35469 |
+| regdump_HKEY_CLASSES_ROOT.txt | 122.69 (MB) | 1931975 | 201571 |
+| regdump_HKEY_LOCAL_MACHINE.txt | 553.31 (MB) | 7558804 | 529983 |
+| _Totals_ | _849.85 (MB)_ | _11,000,955_ | _785,437_ |
 
-I'm not looking for much, just some idea of what we have. The following code is an example of what was run in the REPL as I was exploring the data, but it is runnable [as a script on my GitHub](https://github.com/jbeattie5768/winreg_read/tree/main/utils). Python is quite capable of handling all these files simultaneously:
+I'm not seeking much, just some idea of what is present. The following code is an example of what was run in the REPL as I was exploring the data, but it is runnable [as a script on my GitHub](https://github.com/jbeattie5768/winreg_read/tree/main/utils). Python is capable of handling all these files simultaneously:
 
 ### Example: Analysing Exported Registry Files
 
@@ -152,7 +153,8 @@ tuple_of_files = (
     "regdump_HKEY_LOCAL_MACHINE.txt",
     "regdump_HKEY_USERS.txt",
 )
-# There are some 'locale' characters that will not work for UTF-8
+# Registry files exported via regedit are typically encoded in UTF-16 
+# Some 'locale' characters will not be compatible with UTF-8
 with fileinput.input(files=tuple_of_files, encoding="utf-16") as fid:
     data = list(fid)
 
@@ -160,11 +162,11 @@ with fileinput.input(files=tuple_of_files, encoding="utf-16") as fid:
 keynames = []
 for this_line in data:
     if this_line.startswith("Key Name:"):
-        # Caution: Keys can have whitespace
+        # Note: Keys may contain whitespace
         keynames.append(this_line.split("Key Name:")[1].strip())
 print(f"Key Count: {len(keynames)}\n")
 pprint(keynames[:12])  # Print 1st 12
-# Likely the longest and deepest key-paths are the same...
+# It is likely that the longest and deepest key-paths are the same..
 longest_path = max(keynames, key=len)
 print(f"\nLongest key-path is {len(longest_path)} characters.")
 print(f"With {len(longest_path.split('\\'))} keys in it:\n")
@@ -175,9 +177,9 @@ print(f"\nDeepest key-path is {len(deepest_path)} characters.")
 print(f"With {len(deepest_path.split('\\'))} keys in it:\n")
 print(deepest_path)  # The actual key-path
 
-# So as we thought, Key Names are like paths
+# As anticipated, Key Names are like paths
 # i.e., the path is made up of keys and subkeys
-... # other code available on GitHub
+... # additional code is available on GitHub
 ```
 
 ### Example summary of my registry key statistics
@@ -208,13 +210,13 @@ The most common Class Name entries (Name, Count):
  ('5c15e5ed\n', 2), ('2c356ba6\n', 2), ('DynDRootClass\n', 2)]
 ```
 
-There are a _lot of keys_ (>780k) and the longest key-path is long (28 keys or 407 characters).
-There is one value _Type_ not defined in the Python `WinReg` module, which is `REG_UNKNOWN`. This appears when the _Type_ is just an undefined hex value. We can either print the hex value or follow suit and use `REG_UNKNOWN`.
+There are a large number of keys (>780,000) and the longest key-path is substantial (28 keys or 407 characters).
+There is one value _Type_ not defined in the Python `WinReg` module, which is `REG_UNKNOWN`. This occurs when the _Type_ is an undefined hexadecimal value. We can either print the hex value or follow suit and use `REG_UNKNOWN`.
 
 _Class Name_ entries appear in the exported text files, but not in the RegEdit application itself. I think this is the RegEdit exporter being clever by cross-referencing the _Class_, _ClassID_ and _ClassGuid_ '_Name_' entries defined elsewhere in the registry.\
-_**Update**_: _I've subsequently confirmed that I cannot access anything named 'Class Name' in the registry with the Python WinReg module, and therefore ignoring these is a safe thing to do._
+_**Update**_: _I have subsequently confirmed that 'Class Name' entries cannot be accessed in the registry using the Python WinReg module, and therefore it is safe to ignore these._
 
-I'm only dealing with 64-bit Windows, so I'm not worrying about accessing 32-bit applications. You may need to investigate further if you have to worry about 32-bit access – see [Accessing an Alternate Registry View](https://learn.microsoft.com/en-gb/windows/win32/winprog64/accessing-an-alternate-registry-view?redirectedfrom=MSDN) for more information.
+This post focuses on 64-bit Windows; accessing 32-bit applications is not covered. You may need to investigate further if you have to worry about 32-bit access – see [Accessing an Alternate Registry View](https://learn.microsoft.com/en-gb/windows/win32/winprog64/accessing-an-alternate-registry-view?redirectedfrom=MSDN) for more information.
 
 The simplest Python WinReg code I could write to read a value:
 
@@ -244,23 +246,23 @@ The latter is preferable for traversing a key-path.
 
 ## 5. Building a Better Registry Reader in Python
 
-I set out to write a script that can:
+I set out to write a script that could:
 
-- Read any registry key or value, not just Python-related ones
-- Traverse subkeys recursively
-- Handle errors gracefully..somewhat
-- Be easily extended for new use cases
+- Read any registry key or value, not just Python-related ones.
+- Traverse subkeys recursively.
+- Handle errors gracefully - somewhat.
+- Be easily extended for new use cases.
 
-We will define some design caveats first:
+Let us define some design caveats first:
 
 - We will only be connecting locally, otherwise see `winreg.ConnectRegistry()`.
-- Read Only, I don't want to write to the Registry (Danger!)
-- 64-bit only
-- Print results to the console only, can redirect to file on the console if needed
-- Use the `REG_UNKNOWN` type for undefined type values
-- Command Line (CLI) use, but also programmatically callable
-- One root-key at a time on CLI – can programmatically call more if needed
-- Allow specific subkeys to be ignored - helps overcome permission issues and errors in the registry
+- Read-Only; I don't want to write to the Registry (Danger!).
+- 64-bit only.
+- Print results to the console only; can redirect to file on the console if needed.
+- Use the `REG_UNKNOWN` type for undefined type values.
+- Command Line (CLI) use, but also programmatically callable.
+- One root-key at a time on CLI; can programmatically call more if needed.
+- Allow specific subkeys to be ignored - this helps overcome permission issues and errors in the registry.
 
 ______________________________________________________________________
 
@@ -270,7 +272,7 @@ ______________________________________________________________________
 
 ### Getting Keys and Values
 
-I like the sample code method of using `yield`. Not keen on having the counter, so we can use recursion instead:
+I appreciate the sample code's use of `yield`. However, I am not keen on using a counter, so recursion was considered instead:
 
 ```python
 # DO NOT DO THIS
@@ -282,12 +284,12 @@ def get_keys(hkey, path, index=0):
         pass
 ```
 
-Okay, **bad idea #1** complete! Turns out this causes a **_RecursionError_**.
+However, this was a **bad idea**, as this approach resulted in a **_RecursionError_**.
 
-What I did not realise was that Python has a recursion limit (`sys.getrecursionlimit()`), and using recursion in the Keys and Values functions meant we exceeded that limit (`RecursionError` exception), even for moderately-short traversals. You can change the recursion limit (`sys.setrecursionlimit(n)`), but I was not keen on doing so. So I went back to the counter method.\
+What I did not realise was that Python has a recursion limit (`sys.getrecursionlimit()`), and using recursion in the Keys and Values functions meant we exceeded that limit (`RecursionError` exception), even for moderately-short traversals. Although the recursion limit can be changed (`sys.setrecursionlimit(n)`), I preferred not to do so and reverted to the counter method.  
 This was also the time I became concerned about key handles leaking for deep traversals.
 
-The code is perhaps less ~~Pedantic~~ Pythonic, but it's probably clearer to understand with the counter method anyway!
+The code may be less Pythonic, but it is likely clearer with the counter method.
 
 ```python
 # USE THIS for get_keys() and get_values()
@@ -315,7 +317,7 @@ We've added some exception protection for invalid paths, and some of the Registr
 
 ### Traversing Subkeys via Recursion
 
-We want:
+The desired process is as follows:
 
 ```mermaid
 flowchart TD
@@ -333,7 +335,7 @@ flowchart TD
 
 ### Printing Results
 
-I only care about printing to the console. The RegEdit application's exported text files are close to what I want, but perhaps with just some tweaking:
+The focus is on printing to the console. The exported text files from the RegEdit application are similar to the desired output, with minor adjustments:
 
 ```text
 Full_Path\Copyable_for_RegEdit
@@ -345,15 +347,15 @@ Full_Path\Copyable_for_RegEdit\Plus_Subkey
 ...and so on...
 ```
 
-We've seen some of the paths can be huge (>400 characters for my system), the empty line between paths will help identify blocks of subkey values when the console wraps these multi-key paths.
+Some paths can be very long (over 400 characters on my system); an empty line between paths helps to identify blocks of subkey values when the console wraps these multi-key paths.
 
 You can redirect the console output to a file and remove line-wrap in your editor if the wrapping bothers you.
 
-We can set some constants for the TYPE-NAME-VALUE column spacing.
+Constants can be set for the TYPE-NAME-VALUE column spacing.
 
 ### Arguments with ArgParse
 
-[ArgParse](https://docs.python.org/3/library/argparse.html) is quick, simple and all we need. It can be extended as needed:
+[ArgParse](https://docs.python.org/3/library/argparse.html) is quick, simple, and sufficient for our needs. It can be extended as required:
 
 ```text
 usage: winreg_read.py [-h] [-e [EXCLUDE ...]] HKey Key-Path
@@ -394,14 +396,14 @@ options:
 
 ### Final Tidy
 
-It's important to know when to stop.\
-You can spend forever tweaking and twiddling. Use tools like [Ruff](https://docs.astral.sh/ruff/) to take the majority of decision-making out of your hands.
+It is important to know when to stop.  
+One could spend an inordinate amount of time tweaking and refining. Use tools such as [Ruff](https://docs.astral.sh/ruff/) to automate the majority of decision-making.
 
 ______________________________________________________________________
 
 ## 6. Practical Example: Using the Script
 
-Let’s see the script in action. Suppose you want to list all Python installations or inspect a custom registry key. Here’s how you might use the script:
+Let us see the script in action. Suppose you want to list all Python installations or inspect a custom registry key. Here is how you might use the script:
 
 ### Command-line Examples
 
@@ -421,10 +423,10 @@ uv run winreg_read.py "HKEY_CURRENT_CONFIG" "System" -e "System\CurrentControlSe
 
 #### Example 1
 
-Traverse a given HKEY and subkey-path:
+Traverse a given HKEY and subkey path:
 
 ```python {hl_lines=[7]}
-# import winreg  # Instead, use the import via 'winreg_read'import 
+# import winreg  # Instead, use the import via 'winreg_read' import 
 import winreg_read
 
 hkey = winreg_read.winreg.HKEY_CURRENT_USER
@@ -437,7 +439,7 @@ winreg_read.traverse_winreg_for_values(hkey, key_path, None)
 
 #### Example 2
 
-Display the Python versions available from all manufacturers for the current user:
+Display the Python versions available from all vendors for the current user:
 
 ```python {hl_lines=[7, 9]}
 import winreg_read as wrr
@@ -454,7 +456,7 @@ for this_subkey in wrr.get_keys(hkey, key_path):
 
 ![List Python versions for each available manufacturer](images/image-5.png)
 
-...and then if we wanted to see details of a particular Python version:
+To view details of a particular Python version:
 
 ```python {hl_lines=[1]}
 wrr.traverse_winreg_for_values(hkey, "software\\python\\Astral\\CPython3.14.0b4", None)
@@ -466,24 +468,24 @@ ______________________________________________________________________
 
 ## 7. Key Takeaways
 
-- Python is progressing fast, sample code becomes outdated quickly
-- The Windows Registry is a powerful resource for automation and discovery
-- Python’s `winreg` module can be used for much more than just reading Python installation information
+- Python is progressing rapidly; sample code becomes outdated quickly.
+- The Windows Registry is a powerful resource for automation and discovery.
+- Python’s `winreg` module can be used for much more than just reading Python installation information.
 
 ### Reading a Registry Value
 
-- Use `winreg.OpenKey()` to open a key
-- Use `winreg.QueryValueEx()` to read a value
+- Use `winreg.OpenKey()` to open a key.
+- Use `winreg.QueryValueEx()` to read a value.
 
 ### Writing to the Registry
 
-- Always back up the registry before making changes
-- Use `winreg.CreateKey()` or `winreg.OpenKey()` with write access
-- Use `winreg.SetValueEx()` to set a value
+- Always back up the registry before making changes.
+- Use `winreg.CreateKey()` or `winreg.OpenKey()` with write access.
+- Use `winreg.SetValueEx()` to set a value.
 
 ### Deleting a Registry Key or Value
 
-- Use `winreg.DeleteKey()` or `winreg.DeleteValue()` for cleanup or automation
+- Use `winreg.DeleteKey()` or `winreg.DeleteValue()` for cleanup or automation.
 
 ______________________________________________________________________
 
@@ -505,6 +507,8 @@ Try out the script, experiment with different keys, and share your findings or i
 
 ______________________________________________________________________
 
-_\* AI has been used for checking spelling, grammar and technical details on this Blog post._
+### Edits to this Post
+
+- 11 Jan 2026: MD linting and AI spelling, grammar checks
 
 ______________________________________________________________________
