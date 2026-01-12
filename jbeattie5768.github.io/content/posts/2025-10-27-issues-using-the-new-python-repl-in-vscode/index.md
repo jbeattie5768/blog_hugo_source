@@ -9,34 +9,34 @@ tags = ["Python", "REPL", "VSCode", "Issue"]
 
 ## The PyREPL
 
-I use the REPL all the time and I'm enjoying the new PyREPL.  
-If you haven't yet moved to Python 3.14, you should - PyREPL is another compelling reason to update.
+I use the REPL frequently and am enjoying the new PyREPL.  
+If you have not yet upgraded to Python 3.14, you should - PyREPL is another compelling reason to update.
 
-The new PyREPL has been available since Python 3.13, and replaces the original C-based REPL with a Python-based implementation (PyREPL). You can read about the PyREPL in ['PEP 762 – REPL-acing the default REPL'](https://peps.python.org/pep-0762/).
+The new PyREPL has been available since Python 3.13 and replaces the original C-based REPL with a Python-based implementation (PyREPL). You can read about the PyREPL in ['PEP 762 – REPL-acing the default REPL'](https://peps.python.org/pep-0762/).
 
-Key benefits of the new PyREPL:
+Key benefits of the new PyREPL include:
 
-- Coloured output for improved readability
-- New built-in commands (exit, quit, copyright, help, clear)
-- Improved paste handling for multi-line code
-- Block-level history and a persistent history file (`.python_history`)
-- Better Windows/PowerShell support
-- Inline help and history convenience keys (F1/F2 mappings may vary by terminal)
+- Coloured output for improved readability.
+- New built-in commands (exit, quit, copyright, help, clear).
+- Improved paste handling for multi-line code.
+- Block-level history and a persistent history file (`.python_history`).
+- Better Windows/PowerShell support.
+- Inline help and history convenience keys (F1/F2 mappings may vary by terminal).
 
 ## Using the PyREPL in VSCode
 
-I've had trouble with the terminal in VSCode in the past (see [this blog post](https://jbeattie5768.github.io/posts/2025-08-29-vscode-terminal-does-not-match-the-windows-path-environment/)), and by default **VSCode currently disables the PyREPL** ([VSCode-Python Issue #25240](https://github.com/microsoft/vscode-python/issues/25240)) - this is the case in the September 2025 (version _1.105.1_) release:
+I have experienced trouble with the terminal in VSCode previously (see [this blog post](https://jbeattie5768.github.io/posts/2025-08-29-vscode-terminal-does-not-match-the-windows-path-environment/)), and by default, **VSCode currently disables the PyREPL** ([VSCode-Python Issue #25240](https://github.com/microsoft/vscode-python/issues/25240)). This is the case in the September 2025 (version _1.105.1_) release:
 
 {{< figure src="image.png" alt="VSCode terminal showing the default (C-based) Python REPL" caption="VSCode showing the default (C-based) Python REPL — no PyREPL features such as coloured output or easy exit." >}}
 
-Not ideal.
+This is not ideal.
 
-This also appears to be the case for the VSCode Insiders version (I observed it in the _1.106.0-insider_ version).  
-I expect this to be a temporary thing for VSCode, and that the VSCode team is working on changing it.
+This also appears to be the case for the VSCode Insiders version (I observed it in _1.106.0-insider_).  
+I expect this to be temporary, and anticipate that the VSCode team is working to resolve it.
 
-VSCode sets the [`PYTHON_BASIC_REPL`](https://docs.python.org/3/using/cmdline.html#envvar-PYTHON_BASIC_REPL) environment variable within its environment, which forces the basic REPL and prevents PyREPL from loading.
+VSCode sets the [`PYTHON_BASIC_REPL`](https://docs.python.org/3/using/cmdline.html#envvar-PYTHON_BASIC_REPL) environment variable, which forces the basic REPL and prevents PyREPL from loading.
 
-You **can** change this default behaviour in your VSCode **user** settings (`settings.json`) by adding:
+You can change this default behaviour in your VSCode **user** settings (`settings.json`) by adding:
 
 ```json
 {
@@ -45,24 +45,24 @@ You **can** change this default behaviour in your VSCode **user** settings (`set
 }
 ```
 
-You'll need to _kill_ the terminal for it to take effect:
+You'll need to _restart_ the terminal for it to take effect:
 
 {{< figure src="image-1.png" alt="PyREPL in VSCode showing coloured prompts and easy exit" caption="PyREPL in VSCode: coloured output, and easy exit." >}}
 
 A thing of beauty!
 
->If you still see the old REPL after changing the user settings, restart VSCode.
+>If the old REPL still appears after changing the user settings, restart VSCode.
 {.note}
 
-There have been reports of cursor indentation issues (see [CPython Issue #126131](https://github.com/python/cpython/issues/126131)) when using PyREPL in VSCode, but I've not noticed any major issues **yet**.
+There have been reports of cursor indentation issues (see [CPython Issue #126131](https://github.com/python/cpython/issues/126131)) when using PyREPL in VSCode, but I have not noticed any major issues **yet**.
 
 ---
 
 ## Essential Keyboard Shortcuts
 
-There are a number of keyboard bindings (keyboard shortcuts) available for the new PyRepl. These bindings are defined in the default CPython keymap in [Lib/_pyrepl/reader.py](https://github.com/python/cpython/blob/3.14/Lib/_pyrepl/reader.py) and extended for history in [Lib/_pyrepl/historical_reader.py](https://github.com/python/cpython/blob/3.14/Lib/_pyrepl/historical_reader.py).
+There are a number of keyboard bindings (keyboard shortcuts) available for the new PyREPL. These bindings are defined in the default CPython keymap in [Lib/_pyrepl/reader.py](https://github.com/python/cpython/blob/3.14/Lib/_pyrepl/reader.py) and extended for history in [Lib/_pyrepl/historical_reader.py](https://github.com/python/cpython/blob/3.14/Lib/_pyrepl/historical_reader.py).
 
-The key ones _[pun absolutely intended]_ I use are:
+The key ones I use are _(pun absolutely intended)_:
 
 | Key Combination | Action |
 | --- | --- |
@@ -79,9 +79,9 @@ The key ones _[pun absolutely intended]_ I use are:
 >Use Ctrl+n/Ctrl+p to skip scrolling through history code blocks.
 {.note}
 
-I also use standard key combinations, such as the _Home/End keys_, _Ctrl + <-/->_, _Ctrl + Shift <-/->_, and so on.
+I also use standard key combinations, such as the _Home/End keys_, _Ctrl+<-/->_, _Ctrl+Shift+<-/->_, and so on.
 
-Extended bindings I tend not to use frequently enough to memorise:
+There are extended bindings that I do not use frequently enough to memorise:
 
 | Key Combination | Action |
 | --- | --- |
@@ -115,7 +115,7 @@ Extended bindings I tend not to use frequently enough to memorise:
 | F3 | paste-mode |
 
 >On Windows and Linux, use Alt for Meta.  
->On Mac, use Option (⌥) for Meta (unless your terminal remaps it).
+>On Mac, use Option (⌥) for Meta (unless your terminal remaps it)."
 {.note}
 
 ---
@@ -138,3 +138,4 @@ Extended bindings I tend not to use frequently enough to memorise:
 
 - 30 Oct 2025: Added banner image to post.
 - 05 Jan 2026: Added keyboard shortcuts section
+- 12 Jan 2026: MD linting and AI spelling, grammar checks
