@@ -7,4 +7,5 @@
     //     "tables": false,
     //     "strict": false
     // },
+    "MD004": {"style": "dash"} // asterisk / consistent / dash / plus / sublist
 }
